@@ -1,5 +1,2 @@
-image:
-  file: .gitpod.Dockerfile
 tasks:
-  - name: Greet Self
-    command: echo 'Happy Programming!'
+  - init: npm install -g nestjs/cli
