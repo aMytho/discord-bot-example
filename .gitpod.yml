@@ -1,3 +1,4 @@
 tasks:
-  - init: npm install @nestjs/cli -g
+  - name: Automate Dependency Installation
+    init: npm install @nestjs/cli -g
     command: echo 'Happy Programming!'
