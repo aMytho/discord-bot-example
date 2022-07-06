@@ -1,4 +1,5 @@
+image:
+  file: .gitpod.Dockerfile
 tasks:
-  - name: Automate Dependency Installation
-    init: npm install @nestjs/cli -g
+  - name: Greet Self
     command: echo 'Happy Programming!'
