@@ -1,2 +1,2 @@
 tasks:
-  - init: npm install -g nestjs/cli
+  - init: npm install -g @nestjs/cli
