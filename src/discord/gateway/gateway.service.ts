@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as WebSocket from "ws";
+import { ApiService } from '../api/api.service';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable()
@@ -7,9 +8,16 @@ export class GatewayService {
 
     private ws = new WebSocket("wss://gateway.discord.gg?v=10&encoding=json");
 
-    constructor(private authService: AuthService) {
+    constructor(
+        private authService: AuthService,
+        private apiService: ApiService
+        ) {
         this.ws.on("open", () => {
             this.onOpen();
+            setTimeout(() => {
+                // Uncomment to send a bot start message
+                //this.apiService.sendMessage("I have arrived, hello world!", "979089096175673399")
+            }, 5000);
         });
 
         this.ws.on("message", (data) => {
@@ -70,6 +78,13 @@ export class GatewayService {
             case 11:
                 console.log("Heartbeat recieved!");
                 break;
+            
+            default:
+                try {
+                    console.log(parsedData.d.channels)
+                } catch(e) {
+
+                }
         }
     }
 

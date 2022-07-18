@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth/auth.service';
 import { GatewayService } from './gateway/gateway.service';
+import { ApiService } from './api/api.service';
 
 @Module({
-  providers: [AuthService, GatewayService]
+  providers: [AuthService, GatewayService, ApiService]
 })
 export class DiscordModule {}
