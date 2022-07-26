@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import * as WebSocket from "ws";
 import { ApiService } from '../api/api.service';
 import { AuthService } from '../auth/auth.service';
+import { Operation } from './operation';
+import { Payload } from './payload';
 
 @Injectable()
 export class GatewayService {
@@ -44,7 +46,7 @@ export class GatewayService {
     heartBeat() {
         this.ws.send(JSON.stringify({
             d: null,
-            op: 1
+            op: Operation.Heartbeat
         }));
 
         console.log("Send heartbeat!");
@@ -52,7 +54,7 @@ export class GatewayService {
 
     identifyBot() {
         this.ws.send(JSON.stringify({
-            op: 2,
+            op: Operation.Identify,
             d: {
                 token: this.authService.getToken(),
                 intents: 33281,
@@ -67,24 +69,20 @@ export class GatewayService {
 
     onMessage(data: string) {
         console.log("Got a message through the connection! Message below!");
-        let parsedData = JSON.parse(data);
+        let parsedData: Payload = JSON.parse(data);
         console.log(parsedData);
 
         switch(parsedData.op) {
-            case 10:
+            case Operation.Hello:
                 this.identifyBot()
             break;
 
-            case 11:
+            case Operation.HeartbeatACK:
                 console.log("Heartbeat recieved!");
                 break;
             
             default:
-                try {
-                    console.log(parsedData.d.channels)
-                } catch(e) {
-
-                }
+                break;
         }
     }
 
