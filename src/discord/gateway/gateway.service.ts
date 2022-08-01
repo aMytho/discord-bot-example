@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import * as WebSocket from "ws";
 import { ApiService } from '../api/api.service';
 import { AuthService } from '../auth/auth.service';
+import { DispatchService } from './dispatch/dispatch.service';
 import { Operation } from './operation';
 import { Payload } from './payload';
 
@@ -12,7 +13,8 @@ export class GatewayService {
 
     constructor(
         private authService: AuthService,
-        private apiService: ApiService
+        private apiService: ApiService,
+        private dispatchService: DispatchService
         ) {
         this.ws.on("open", () => {
             this.onOpen();
@@ -81,6 +83,9 @@ export class GatewayService {
                 console.log("Heartbeat recieved!");
                 break;
             
+            case Operation.Dispatch:
+                this.dispatchService.handleDispatch(parsedData);
+                break;
             default:
                 break;
         }
